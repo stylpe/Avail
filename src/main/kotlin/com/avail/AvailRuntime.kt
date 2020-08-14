@@ -1049,7 +1049,7 @@ class AvailRuntime constructor(val moduleNameResolver: ModuleNameResolver)
 			put(unsignedShorts)
 			put(emptyTuple)
 			put(functionType(tuple(bottom), Types.TOP.o))
-			put(instanceType(zero()))
+			put(instanceType(zero))
 			put(functionTypeReturning(topMeta()))
 			put(tupleTypeForSizesTypesDefaultType(
 				wholeNumbers,
@@ -1059,7 +1059,7 @@ class AvailRuntime constructor(val moduleNameResolver: ModuleNameResolver)
 				PhraseKind.PARSE_PHRASE.mostGeneralType()))
 
 			at(110)
-			put(instanceType(two()))
+			put(instanceType(two))
 			put(fromDouble(Math.E))
 			put(instanceType(fromDouble(Math.E)))
 			put(instanceMeta(
@@ -1069,7 +1069,7 @@ class AvailRuntime constructor(val moduleNameResolver: ModuleNameResolver)
 			put(Types.TOKEN.o)
 			put(mostGeneralLiteralTokenType())
 			put(zeroOrMoreOf(anyMeta()))
-			put(inclusive(zero(), positiveInfinity()))
+			put(inclusive(zero, positiveInfinity()))
 			put(zeroOrMoreOf(
 				tupleTypeForSizesTypesDefaultType(
 					singleInt(2),

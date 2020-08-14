@@ -33,7 +33,7 @@
 /*
  * GENERATED FILE
  * * Generator: com.avail.tools.bootstrap.BootstrapGenerator
- * * Last Generated: 8/7/20 8:30 PM
+ * * Last Generated: 8/13/20 10:20 PM
  *
  * DO NOT MODIFY MANUALLY. ALL MANUAL CHANGES WILL BE LOST.
  */
@@ -48,6 +48,7 @@ Uses
 	"Special Objects",
 	"Primitives" =
 	(
+		"<_,_`…`|_>",
 		"Abstract method_is_",
 		"After the current module is unloaded,⁇do_",
 		"Alias_to_",
@@ -3580,6 +3581,33 @@ Primitive "_[_]:=_" is
 		Java-marshaling-failed code}ᵀ);
 	Private invoke _fail_primitive with failureCode
 ] : ⊤;
+
+/**
+ * Construct and answer a tuple type with the specified leading element types,
+ * default element type, and range of cardinalities.
+ *
+ * @category "Primitives" "Types" "Tuples" "Constructors"
+ * @method "<_,_`…`|_>"
+ * @param "leadingTypes" "<(any)'s type…|>"
+ *        The leading types.
+ * @param "defaultType" "(any)'s type"
+ *        The default type.
+ * @param "cardinalityType" "([0..∞))'s type"
+ *        The range of allowed cardinalities.
+ * @returns "(tuple)'s type"
+ *    The requested tuple type.
+ * @raises "incorrect-argument-type exception"
+ */
+Primitive "<_,_`…`|_>" is
+[
+	leadingTypes : tuple of any meta,
+	defaultType : any meta,
+	cardinalityType : whole number meta
+|
+	Primitive CreateTupleType (failureCode : {
+		incorrect-argument-type code}ᵀ);
+	Private invoke _fail_primitive with failureCode
+] : tuple meta;
 
 /**
  * Construct and answer a slice (i.e. subtuple) of the specified tuple.

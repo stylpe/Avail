@@ -33,7 +33,7 @@
 /*
  * GENERATED FILE
  * * Generator: com.avail.tools.bootstrap.BootstrapGenerator
- * * Last Generated: 8/7/20 8:30 PM
+ * * Last Generated: 8/13/20 10:20 PM
  *
  * DO NOT MODIFY MANUALLY. ALL MANUAL CHANGES WILL BE LOST.
  */
@@ -47,7 +47,6 @@ Uses
 	"Special Objects",
 	"Primitives" =
 	(
-		"<_,_`…`|_>",
 		"Assert:_(_)",
 		"Breakpoint",
 		"Cast|cast_into_else_",
@@ -3719,30 +3718,6 @@ Primitive "concatenate_" is
 |
 	Primitive ConcatenateTuples;
 ] : tuple;
-
-/**
- * Construct and answer a tuple type with the specified leading element types,
- * default element type, and range of cardinalities.
- *
- * @category "Primitives" "Types" "Tuples" "Constructors"
- * @method "<_,_`…`|_>"
- * @param "leadingTypes" "<(any)'s type…|>"
- *        The leading types.
- * @param "defaultType" "(any)'s type"
- *        The default type.
- * @param "cardinalityType" "([0..∞))'s type"
- *        The range of allowed cardinalities.
- * @returns "(tuple)'s type"
- *    The requested tuple type.
- */
-Primitive "<_,_`…`|_>" is
-[
-	leadingTypes : tuple of any meta,
-	defaultType : any meta,
-	cardinalityType : whole number meta
-|
-	Primitive CreateTupleType;
-] : tuple meta;
 
 /**
  * Reverses the order of the given tuple.

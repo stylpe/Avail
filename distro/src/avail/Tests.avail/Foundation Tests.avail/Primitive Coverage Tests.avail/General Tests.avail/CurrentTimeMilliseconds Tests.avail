@@ -37,8 +37,10 @@ Uses
 	"Primitive Test Common"
 Body
 
-Test "CurrentTimeMilliseconds ok" in primitive general test suite if supported is
+Test "CurrentTimeMilliseconds ok" in primitive general test suite is
 [
-	Skip test
+	times ::= map each _ of 1 to 100 through [ milliseconds since the Epoch ];
+	sorted ::= merge sort times;
+	Require: times = sorted;
 ];
 

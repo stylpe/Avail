@@ -39,8 +39,135 @@ Body
 
 Test "LessOrEqual ok" in primitive numbers test suite is
 [
-	Require: 2 ≤ 2;
-	Require: 2 ≤ 3;
-	Require: ¬3 ≤ 2;
+	For each i from -10^20 to 10^20 by 10^19 do
+	[
+		// ≥ is a rename of ≤, so test it also.
+		Require: i ≤ i;
+		Require: i ≤ i + 1;
+		Require: i ≥ i;
+		Require: i + 1 ≥ i;
+		
+		f ::= i→float;
+		Require: f ≤ f;
+		Require: f ≤ f + 1.0f;
+		Require: f ≥ f;
+		Require: f + 1.0f ≥ f;
+		
+		d ::= i→double;
+		Require: d ≤ d;
+		Require: d ≤ d + 1.0;
+		Require: d ≥ d;
+		Require: d + 1.0 ≥ d;
+		
+		Require: i ≤ f (“i” ++ " vs " ++ “f”);
+		Require: i ≤ d;
+		Require: f ≤ i;
+		Require: f ≤ d;
+		Require: d ≤ i;
+		Require: d ≤ f;
+		Require: i ≥ f;
+		Require: i ≥ d;
+		Require: f ≥ i;
+		Require: f ≥ d;
+		Require: d ≥ i;
+		Require: d ≥ f;
+		
+		Require: i ≤ ∞;
+		Require: f ≤ ∞;
+		Require: d ≤ ∞;
+		Require: ∞ ≥ i;
+		Require: ∞ ≥ f;
+		Require: ∞ ≥ d;
+
+		Require: i ≥ -∞;
+		Require: f ≥ -∞;
+		Require: d ≥ -∞;
+		Require: -∞ ≤ i;
+		Require: -∞ ≤ f;
+		Require: -∞ ≤ d;
+		
+		ninff ::= -1.0f ÷ 0.0f;
+		inff ::= 1.0f ÷ 0.0f;
+		Require: ninff ≤ i;
+		Require: i ≤ inff;
+		Require: i ≥ ninff;
+		Require: ninff ≤ f;
+		Require: f ≤ inff;
+		Require: f ≥ ninff;
+		Require: ninff ≤ d;
+		Require: d ≤ inff;
+		Require: d ≥ ninff;
+
+		ninfd ::= -1.0 ÷ 0.0;
+		infd ::= 1.0 ÷ 0.0;
+		Require: ninfd ≤ i;
+		Require: i ≤ infd;
+		Require: i ≥ ninfd;
+		Require: ninfd ≤ d;
+		Require: d ≤ infd;
+		Require: d ≥ ninfd;
+		Require: ninfd ≤ d;
+		Require: d ≤ infd;
+		Require: d ≥ ninfd;
+
+		nan ::= 0.0 ÷ 0.0;
+		Require: ¬i ≤ nan;
+		Require: ¬i ≥ nan;
+		Require: ¬nan ≥ i;
+		Require: ¬nan ≤ i;
+		Require: ¬f ≤ nan;
+		Require: ¬f ≥ nan;
+		Require: ¬nan ≥ f;
+		Require: ¬nan ≤ f;
+		Require: ¬d ≤ nan;
+		Require: ¬d ≥ nan;
+		Require: ¬nan ≥ d;
+		Require: ¬nan ≤ d;
+	];
+
+	// Check the floating point zeros specially.
+	Require: -0.0f ≤ 0.0f;
+	Require: 0.0f ≤ -0.0f;
+	Require: -0.0 ≤ 0.0;
+	Require: 0.0 ≤ -0.0;
+	Require: -0.0f ≤ 0.0;
+	Require: 0.0 ≤ -0.0f;
+	Require: -0.0f ≥ 0.0f;
+	Require: 0.0f ≥ -0.0f;
+	Require: -0.0 ≥ 0.0;
+	Require: 0.0 ≥ -0.0;
+	Require: -0.0f ≥ 0.0;
+	Require: 0.0 ≥ -0.0f;
+	
+	// Check floating point infinities specially.
+	ninff ::= -1.0f ÷ 0.0f;
+	inff ::= 1.0f ÷ 0.0f;
+	Require: ninff ≤ -∞;
+	Require: ninff ≤ ∞;
+	Require: -∞ ≥ ninff;
+	Require: ∞ ≥ ninff;
+	Require: -∞ ≤ inff;
+	Require: inff ≤ ∞;
+	Require: ∞ ≥ inff;
+	Require: inff ≥ -∞;
+	
+	ninfd ::= -1.0 ÷ 0.0;
+	infd ::= 1.0 ÷ 0.0;
+	Require: ninfd ≤ -∞;
+	Require: ninfd ≤ ∞;
+	Require: -∞ ≥ ninfd;
+	Require: ∞ ≥ ninfd;
+	Require: -∞ ≤ infd;
+	Require: infd ≤ ∞;
+	Require: ∞ ≥ infd;
+	Require: infd ≥ -∞;
+
+	Require: inff ≤ infd;
+	Require: infd ≥ inff;
+	
+	// Check not-a-number.
+	nan ::= 0.0 ÷ 0.0;
+	Require: ¬nan ≤ nan;
+	Require: ¬nan ≥ nan;
 ];
 

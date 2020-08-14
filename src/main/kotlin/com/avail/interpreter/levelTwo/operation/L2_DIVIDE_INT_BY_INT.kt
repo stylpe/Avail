@@ -86,7 +86,7 @@ object L2_DIVIDE_INT_BY_INT : L2ControlFlowOperation(
 		// On the zeroDivisor edge, the divisor is definitely zero.
 		zeroDivisor.manifest().setRestriction(
 			divisor.semanticValue(),
-			restrictionForConstant(zero(), UNBOXED_INT))
+			restrictionForConstant(zero, UNBOXED_INT))
 	}
 
 	override fun appendToWithWarnings(

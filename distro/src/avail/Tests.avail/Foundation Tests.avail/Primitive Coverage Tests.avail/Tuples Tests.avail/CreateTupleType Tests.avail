@@ -42,3 +42,8 @@ Test "CreateTupleType ok" in primitive tuples test suite if supported is
 	Skip test
 ];
 
+Test "CreateTupleType fails with incorrect-argument-type exception" in primitive tuples test suite if supported is
+[
+	Skip test
+]
+must raise incorrect-argument-type exception;

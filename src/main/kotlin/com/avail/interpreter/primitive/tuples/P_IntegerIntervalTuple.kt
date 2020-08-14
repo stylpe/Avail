@@ -43,6 +43,8 @@ import com.avail.descriptor.types.FunctionTypeDescriptor.Companion.functionType
 import com.avail.descriptor.types.IntegerRangeTypeDescriptor.Companion.integers
 import com.avail.descriptor.types.TupleTypeDescriptor.Companion.zeroOrMoreOf
 import com.avail.exceptions.AvailErrorCode.E_INCORRECT_ARGUMENT_TYPE
+import com.avail.exceptions.AvailException
+import com.avail.exceptions.AvailRuntimeException
 import com.avail.interpreter.Primitive
 import com.avail.interpreter.Primitive.Fallibility.CallSiteCanFail
 import com.avail.interpreter.Primitive.Fallibility.CallSiteCannotFail
@@ -71,7 +73,17 @@ object P_IntegerIntervalTuple : Primitive(3, CanFold, CanInline)
 		{
 			interpreter.primitiveFailure(E_INCORRECT_ARGUMENT_TYPE)
 		}
-		else interpreter.primitiveSuccess(createInterval(start, end, delta))
+		else
+		{
+			try
+			{
+				interpreter.primitiveSuccess(createInterval(start, end, delta))
+			}
+			catch (e: AvailRuntimeException)
+			{
+				interpreter.primitiveFailure(E_INCORRECT_ARGUMENT_TYPE)
+			}
+		}
 	}
 
 	override fun privateBlockTypeRestriction(): A_Type =
@@ -93,7 +105,7 @@ object P_IntegerIntervalTuple : Primitive(3, CanFold, CanInline)
 		val upperDelta = delta.upperBound()
 		return when
 		{
-			lowerDelta.greaterThan(zero()) || upperDelta.lessThan(zero()) ->
+			lowerDelta.greaterThan(zero) || upperDelta.lessThan(zero) ->
 				CallSiteCannotFail
 			lowerDelta.equalsInt(0) && upperDelta.equalsInt(0) ->
 				CallSiteMustFail

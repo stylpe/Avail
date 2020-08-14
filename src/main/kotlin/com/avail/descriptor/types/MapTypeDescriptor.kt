@@ -342,7 +342,7 @@ class MapTypeDescriptor private constructor(mutability: Mutability)
 				return bottom
 			}
 			assert(sizeRange.lowerBound().isFinite)
-			assert(zero().lessOrEqual(sizeRange.lowerBound()))
+			assert(zero.lessOrEqual(sizeRange.lowerBound()))
 			assert(sizeRange.upperBound().isFinite || !sizeRange.upperInclusive())
 			val sizeRangeKind =
 				if (sizeRange.isEnumeration) sizeRange.computeSuperkind()
@@ -358,7 +358,7 @@ class MapTypeDescriptor private constructor(mutability: Mutability)
 			}
 			else if (keyType.isBottom || valueType.isBottom)
 			{
-				newSizeRange = singleInteger(zero())
+				newSizeRange = singleInteger(zero)
 				newKeyType = bottom
 				newValueType = bottom
 			}
@@ -371,7 +371,7 @@ class MapTypeDescriptor private constructor(mutability: Mutability)
 						{
 							// There can't ever be more entries in the map than there
 							// are distinct possible keys.
-							inclusive(zero(), keyType.instanceCount())
+							inclusive(zero, keyType.instanceCount())
 						}
 						keyType.isIntegerRangeType
 						&& (keyType.lowerBound().isFinite
@@ -384,10 +384,10 @@ class MapTypeDescriptor private constructor(mutability: Mutability)
 							// [-∞..∞], [-∞..∞), (-∞..∞], and (-∞..∞), allowing
 							// safe subtraction.
 							inclusive(
-								zero(),
+								zero,
 								keyType.upperBound()
 									.minusCanDestroy(keyType.lowerBound(), false)
-									.plusCanDestroy(one(), false))
+									.plusCanDestroy(one, false))
 						}
 						else ->
 						{

@@ -286,7 +286,7 @@ class SetTypeDescriptor private constructor(mutability: Mutability)
 				return bottom
 			}
 			assert(sizeRange.lowerBound().isFinite)
-			assert(zero().lessOrEqual(sizeRange.lowerBound()))
+			assert(zero.lessOrEqual(sizeRange.lowerBound()))
 			assert(sizeRange.upperBound().isFinite
 			       || !sizeRange.upperInclusive())
 			val sizeRangeKind =
@@ -307,7 +307,7 @@ class SetTypeDescriptor private constructor(mutability: Mutability)
 					{
 						// sizeRange includes at least 0 and 1, but the content
 						// type is bottom, so no contents exist.
-						newSizeRange = singleInteger(zero())
+						newSizeRange = singleInteger(zero)
 						newContentType = bottom
 					}
 					else
@@ -328,7 +328,7 @@ class SetTypeDescriptor private constructor(mutability: Mutability)
 							{
 								// There can't ever be more elements in the set
 								// than there are distinct possible values.
-								inclusive(zero(), contentType.instanceCount())
+								inclusive(zero, contentType.instanceCount())
 							}
 							contentType.isIntegerRangeType
 							&& (contentType.lowerBound().isFinite
@@ -340,10 +340,10 @@ class SetTypeDescriptor private constructor(mutability: Mutability)
 								// test rules out [-∞..∞], [-∞..∞), (-∞..∞], and
 								// (-∞..∞), allowing safe subtraction.
 								inclusive(
-									zero(),
+									zero,
 									contentType.upperBound().minusCanDestroy(
 										contentType.lowerBound(), false)
-										.plusCanDestroy(one(), false))
+										.plusCanDestroy(one, false))
 							}
 							else ->
 							{

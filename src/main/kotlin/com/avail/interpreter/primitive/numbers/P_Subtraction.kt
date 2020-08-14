@@ -129,9 +129,9 @@ object P_Subtraction : Primitive(2, CanFold, CanInline)
 					positiveInfinity().isInstanceOf(aType)
 						|| negativeInfinity().isInstanceOf(bType)
 				return integerRangeType(
-					low.minusCanDestroy(one(), false),
+					low.minusCanDestroy(one, false),
 					includesNegativeInfinity,
-					high.plusCanDestroy(one(), false),
+					high.plusCanDestroy(one, false),
 					includesInfinity)
 			}
 		}

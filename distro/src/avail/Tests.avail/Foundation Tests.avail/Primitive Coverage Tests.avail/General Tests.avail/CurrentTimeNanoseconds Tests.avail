@@ -37,8 +37,10 @@ Uses
 	"Primitive Test Common"
 Body
 
-Test "CurrentTimeNanoseconds ok" in primitive general test suite if supported is
+Test "CurrentTimeNanoseconds ok" in primitive general test suite is
 [
-	Skip test
+	times ::= map each _ of 1 to 100 through [ high-precision timer value ];
+	sorted ::= merge sort times;
+	Require: times = sorted;
 ];
 

@@ -79,10 +79,10 @@ object P_BitwiseAnd : Primitive(2, CannotFail, CanFold, CanInline)
 		// guarantee the bit-wise and can't be greater than or equal to the next
 		// higher power of two of that range's upper bound.
 		val upper: Long =
-			if (aRange.lowerBound().greaterOrEqual(zero())
+			if (aRange.lowerBound().greaterOrEqual(zero)
 			    && aRange.upperBound().isLong)
 			{
-				if (bRange.lowerBound().greaterOrEqual(zero())
+				if (bRange.lowerBound().greaterOrEqual(zero)
 				    && bRange.upperBound().isLong)
 				{
 					min(
@@ -94,7 +94,7 @@ object P_BitwiseAnd : Primitive(2, CannotFail, CanFold, CanInline)
 					aRange.upperBound().extractLong()
 				}
 			}
-			else if (bRange.lowerBound().greaterOrEqual(zero())
+			else if (bRange.lowerBound().greaterOrEqual(zero)
 			         && bRange.upperBound().isLong)
 			{
 				bRange.upperBound().extractLong()
@@ -114,7 +114,7 @@ object P_BitwiseAnd : Primitive(2, CannotFail, CanFold, CanInline)
 			return singleInt(0)
 		}
 		val maxValue = highOneBit - 1 or highOneBit
-		return integerRangeType(zero(), true, fromLong(maxValue), true)
+		return integerRangeType(zero, true, fromLong(maxValue), true)
 	}
 
 	override fun tryToGenerateSpecialPrimitiveInvocation(

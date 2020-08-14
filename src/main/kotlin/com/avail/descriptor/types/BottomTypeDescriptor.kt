@@ -224,7 +224,7 @@ class BottomTypeDescriptor private constructor()
 		potentialInstance: AvailObject): Boolean = false
 
 	// ⊥ is the empty enumeration.
-	override fun o_InstanceCount(self: AvailObject): A_Number = zero()
+	override fun o_InstanceCount(self: AvailObject): A_Number = zero
 
 	// ⊥ is the empty enumeration.
 	override fun o_Instances(self: AvailObject): A_Set = emptySet
