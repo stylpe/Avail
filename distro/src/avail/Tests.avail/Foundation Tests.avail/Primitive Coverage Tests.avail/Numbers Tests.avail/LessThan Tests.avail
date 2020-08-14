@@ -40,7 +40,7 @@ Body
 Test "LessThan ok" in primitive numbers test suite is
 [
 	Require: ¬2 < 2;
-	Require: 2 < 3;
+	Require: 2 < 3.5;
 	Require: ¬3 < 2;
 ];
 

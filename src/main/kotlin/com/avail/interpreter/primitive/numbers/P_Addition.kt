@@ -132,9 +132,9 @@ object P_Addition : Primitive(2, CanFold, CanInline)
 					positiveInfinity().isInstanceOf(aType)
 						|| positiveInfinity().isInstanceOf(bType)
 				return integerRangeType(
-					low.minusCanDestroy(one(), false),
+					low.minusCanDestroy(one, false),
 					includesNegativeInfinity,
-					high.plusCanDestroy(one(), false),
+					high.plusCanDestroy(one, false),
 					includesInfinity)
 			}
 		}

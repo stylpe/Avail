@@ -92,7 +92,7 @@ object P_Division : Primitive(2, CanFold, CanInline)
 		val bTypeIncludesInfinity =
 			negativeInfinity().isInstanceOf(bType)
 				|| positiveInfinity().isInstanceOf(bType)
-		val bTypeIncludesZero = zero().isInstanceOf(bType)
+		val bTypeIncludesZero = zero.isInstanceOf(bType)
 		return if (bTypeIncludesZero
 			|| aTypeIncludesInfinity && bTypeIncludesInfinity)
 		{

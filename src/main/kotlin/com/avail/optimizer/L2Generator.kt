@@ -961,7 +961,7 @@ class L2Generator internal constructor(
 				// template of suitable representation to copy, with constants
 				// included.
 				val constantsWithZeros = elements.map {
-					it.constantOrNull() ?: zero()
+					it.constantOrNull() ?: zero
 				}
 				when
 				{

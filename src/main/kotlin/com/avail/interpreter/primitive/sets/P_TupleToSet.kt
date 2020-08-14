@@ -99,8 +99,8 @@ object P_TupleToSet : Primitive(1, CannotFail, CanFold, CanInline)
 		// the empty tuple can produce the empty set, and the set size is never
 		// greater than the tuple size.
 		val minSize =
-			if (tupleSizes.lowerBound().equalsInt(0)) zero()
-			else one()
+			if (tupleSizes.lowerBound().equalsInt(0)) zero
+			else one
 		val setSizes = integerRangeType(
 			minSize,
 			true,

@@ -142,9 +142,9 @@ class IntegerDescriptor private constructor(
 			builder.append(self.extractLong())
 		} else {
 			var magnitude: A_Number = self
-			if (self.lessThan(zero())) {
+			if (self.lessThan(zero)) {
 				builder.append('-')
-				magnitude = zero().minusCanDestroy(self, false)
+				magnitude = zero.minusCanDestroy(self, false)
 			}
 			printBigInteger(magnitude, builder, 0)
 		}
@@ -556,9 +556,9 @@ class IntegerDescriptor private constructor(
 		sign: Sign,
 		canDestroy: Boolean
 	): A_Number = when {
-		self.equals(zero()) ->
+		self.equals(zero) ->
 			throw ArithmeticException(E_CANNOT_DIVIDE_BY_ZERO)
-		self.greaterThan(zero()) xor (sign == Sign.POSITIVE) ->
+		self.greaterThan(zero) xor (sign == Sign.POSITIVE) ->
 			negativeInfinity()
 		else -> positiveInfinity()
 	}
@@ -625,7 +625,7 @@ class IntegerDescriptor private constructor(
 		// Rare - fall back to slower math.
 		var numerator: A_Number = anInteger
 		var denominator: A_Number = self
-		if (denominator.lessThan(zero()))
+		if (denominator.lessThan(zero))
 		{
 			// n/d for d<0:  Compute (-n/-d) instead.
 			numerator =
@@ -634,7 +634,7 @@ class IntegerDescriptor private constructor(
 				denominator.subtractFromIntegerCanDestroy(zero, canDestroy)
 		}
 		var invertResult = false
-		if (numerator.lessThan(zero()))
+		if (numerator.lessThan(zero))
 		{
 			// n/d for n<0, d>0:  use -1-(-1-n)/d
 			// e.g., -9/5  = -1-(-1+9)/5  = -1-8/5 = -2
@@ -699,9 +699,9 @@ class IntegerDescriptor private constructor(
 		sign: Sign,
 		canDestroy: Boolean
 	): A_Number = when {
-		self.equals(zero()) ->
+		self.equals(zero) ->
 			throw ArithmeticException(E_CANNOT_MULTIPLY_ZERO_AND_INFINITY)
-		self.greaterThan(zero()) xor (sign == Sign.POSITIVE) ->
+		self.greaterThan(zero) xor (sign == Sign.POSITIVE) ->
 			negativeInfinity()
 		else -> positiveInfinity()
 	}
@@ -1114,7 +1114,7 @@ class IntegerDescriptor private constructor(
 		if (!shiftFactor.isInt) {
 			// e.g., 123 >> 999999999999999999 is 0
 			// also 123 << 999999999999999999 truncated to N bits (N<2^31) is 0.
-			return zero()
+			return zero
 		}
 		val shiftInt = shiftFactor.extractInt()
 		if (self.isLong) {
@@ -1209,7 +1209,7 @@ class IntegerDescriptor private constructor(
 		shiftFactor: A_Number,
 		canDestroy: Boolean
 	): A_Number {
-		if (self.equals(zero())) {
+		if (self.equals(zero)) {
 			if (!canDestroy || isMutable) {
 				self.makeImmutable()
 			}
@@ -1224,7 +1224,7 @@ class IntegerDescriptor private constructor(
 			}
 			return when (Order.MORE) {
 				// e.g., 123 >> 999999999999999999 is 0
-				self.numericCompareToInteger(zero) -> zero()
+				self.numericCompareToInteger(zero) -> zero
 				// e.g., -123 >> 999999999999999999 is -1
 				else -> negativeOne()
 			}
@@ -1388,7 +1388,8 @@ class IntegerDescriptor private constructor(
 		else -> writer.write(self.asBigInteger())
 	}
 
-	companion object {
+	companion object
+	{
 		/**
 		 * Answer the number of int slots in the passed integer object, which
 		 * must not be an indirection.
@@ -1560,7 +1561,7 @@ class IntegerDescriptor private constructor(
 			}
 			out.trimExcessInts()
 			return when {
-				neg -> zero().noFailMinusCanDestroy(out, true)
+				neg -> zero.noFailMinusCanDestroy(out, true)
 				else -> out
 			}
 		}
@@ -1824,47 +1825,20 @@ class IntegerDescriptor private constructor(
 		}
 
 		/** An Avail integer representing zero (0).  */
-		private val zero: AvailObject = immutableByteObjects[0]
+		val zero: AvailObject = immutableByteObjects[0]
 
 		/** An Avail integer representing one (1).  */
-		private val one: AvailObject = immutableByteObjects[1]
+		val one: AvailObject = immutableByteObjects[1]
 
 		/** An Avail integer representing two (2).  */
-		private val two: AvailObject = immutableByteObjects[2]
+		val two: AvailObject = immutableByteObjects[2]
 
 		/** The Avail integer negative one (-1).  */
-		private var negativeOne: AvailObject =
+		val negativeOne: AvailObject =
 			createUninitializedInteger(1).apply {
 				rawSignedIntegerAtPut(1, -1)
 				makeShared()
 			}
-
-		/**
-		 * Answer an [AvailObject] representing the integer zero (`0`).
-		 *
-		 * @return
-		 *   The Avail integer zero.
-		 */
-		@JvmStatic
-		fun zero(): A_Number = zero
-
-		/**
-		 * Answer an [AvailObject] representing the integer one (`1`).
-		 *
-		 * @return
-		 *   The Avail integer one.
-		 */
-		@JvmStatic
-		fun one() = one
-
-		/**
-		 * Answer an [AvailObject] representing the integer two (`2`).
-		 *
-		 * @return
-		 *   The Avail integer two.
-		 */
-		@JvmStatic
-		fun two() = two
 
 		/**
 		 * One (U.S.) quintillion, which is 10^18.  This is the largest power of

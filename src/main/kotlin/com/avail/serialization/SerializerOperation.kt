@@ -289,7 +289,7 @@ enum class SerializerOperation constructor(
 			subobjects: Array<AvailObject>,
 			deserializer: Deserializer): A_BasicObject
 		{
-			return zero()
+			return zero
 		}
 	},
 
@@ -310,7 +310,7 @@ enum class SerializerOperation constructor(
 			subobjects: Array<AvailObject>,
 			deserializer: Deserializer): A_BasicObject
 		{
-			return one()
+			return one
 		}
 	},
 
@@ -331,7 +331,7 @@ enum class SerializerOperation constructor(
 			subobjects: Array<AvailObject>,
 			deserializer: Deserializer): A_BasicObject
 		{
-			return two()
+			return two
 		}
 	},
 

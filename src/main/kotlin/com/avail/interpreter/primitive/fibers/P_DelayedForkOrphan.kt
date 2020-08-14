@@ -156,7 +156,7 @@ object P_DelayedForkOrphan : Primitive(
 	override fun privateBlockTypeRestriction(): A_Type =
 		functionType(
 			tuple(
-				inclusive(zero(), positiveInfinity()),
+				inclusive(zero, positiveInfinity()),
 				functionTypeReturning(TOP.o),
 				mostGeneralTupleType(),
 				bytes

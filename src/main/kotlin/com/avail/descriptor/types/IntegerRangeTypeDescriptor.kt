@@ -482,7 +482,7 @@ class IntegerRangeTypeDescriptor private constructor(
 				// Try to rewrite (if possible) as inclusive boundary.
 				if (low.isFinite)
 				{
-					low = low.noFailPlusCanDestroy(one(), false)
+					low = low.noFailPlusCanDestroy(one, false)
 					lowInc = true
 				}
 			}
@@ -493,7 +493,7 @@ class IntegerRangeTypeDescriptor private constructor(
 				// Try to rewrite (if possible) as inclusive boundary.
 				if (high.isFinite)
 				{
-					high = high.noFailMinusCanDestroy(one(), false)
+					high = high.noFailMinusCanDestroy(one, false)
 					highInc = true
 				}
 			}
@@ -633,7 +633,7 @@ class IntegerRangeTypeDescriptor private constructor(
 
 		/** The range of natural numbers, [1..∞). */
 		val naturalNumbers: A_Type =
-			integerRangeType(one(), true, positiveInfinity(), false)
+			integerRangeType(one, true, positiveInfinity(), false)
 				.makeShared()
 
 		/** The range [0..15]. */
@@ -645,7 +645,7 @@ class IntegerRangeTypeDescriptor private constructor(
 
 		/** The range of whole numbers, [0..∞). */
 		val wholeNumbers: A_Type =
-			integerRangeType(zero(), true, positiveInfinity(), false)
+			integerRangeType(zero, true, positiveInfinity(), false)
 				.makeShared()
 
 		/** The range of a signed 32-bit `int`, [-2^31..2^31). */

@@ -124,7 +124,7 @@ object P_TupleAt : Primitive(2, CanFold, CanInline)
 
 		val tupleTypeSizes = tupleType.sizeRange()
 		val minTupleSize = tupleTypeSizes.lowerBound()
-		return if (subscripts.lowerBound().greaterOrEqual(one())
+		return if (subscripts.lowerBound().greaterOrEqual(one)
 			&& subscripts.upperBound().lessOrEqual(minTupleSize))
 		{
 			CallSiteCannotFail
@@ -164,7 +164,7 @@ object P_TupleAt : Primitive(2, CanFold, CanInline)
 			// registers. Check the lower bound, if necessary.
 			if (generator.currentlyReachable()
 				&& readSubscript.restriction().type.lowerBound()
-					.lessThan(one()))
+					.lessThan(one))
 			{
 				val success1 = generator.createBasicBlock(
 					"passed lower bound check")

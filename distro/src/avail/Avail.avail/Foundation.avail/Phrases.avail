@@ -623,7 +623,7 @@ Semantic restriction "bootstrap restricted send_with_:_" is
  */
 Public method "real source position" is
 [
-	integer range from 1 (inclusive=true) to 4294967295 (inclusive=true)
+	integer range from 1 (inclusive=true) to 2147483647 (inclusive=true)
 ];
 
 /**

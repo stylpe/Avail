@@ -34,6 +34,7 @@ package com.avail.descriptor.tuples
 import com.avail.annotations.HideFieldInDebugger
 import com.avail.descriptor.numbers.A_Number
 import com.avail.descriptor.numbers.IntegerDescriptor.Companion.fromInt
+import com.avail.descriptor.numbers.IntegerDescriptor.Companion.one
 import com.avail.descriptor.numbers.IntegerDescriptor.Companion.zero
 import com.avail.descriptor.representation.A_BasicObject
 import com.avail.descriptor.representation.AvailObject
@@ -58,10 +59,15 @@ import com.avail.descriptor.tuples.IntegerIntervalTupleDescriptor.ObjectSlots.EN
 import com.avail.descriptor.tuples.IntegerIntervalTupleDescriptor.ObjectSlots.START
 import com.avail.descriptor.tuples.ObjectTupleDescriptor.Companion.tuple
 import com.avail.descriptor.tuples.ObjectTupleDescriptor.Companion.tupleFromList
+import com.avail.descriptor.tuples.SmallIntegerIntervalTupleDescriptor.Companion.createSmallInterval
+import com.avail.descriptor.tuples.SmallIntegerIntervalTupleDescriptor.Companion.isSmallIntervalCandidate
 import com.avail.descriptor.tuples.TreeTupleDescriptor.Companion.concatenateAtLeastOneTree
 import com.avail.descriptor.tuples.TreeTupleDescriptor.Companion.createTwoPartTreeTuple
 import com.avail.descriptor.types.A_Type
 import com.avail.descriptor.types.IntegerRangeTypeDescriptor
+import com.avail.exceptions.AvailErrorCode
+import com.avail.exceptions.AvailErrorCode.E_EXCEEDS_VM_LIMIT
+import com.avail.exceptions.AvailRuntimeException
 import java.util.IdentityHashMap
 
 /**
@@ -550,7 +556,7 @@ class IntegerIntervalTupleDescriptor private constructor(mutability: Mutability)
 		{
 			assert(!delta.equalsInt(0))
 			val difference = end.minusCanDestroy(start, false)
-			val zero: A_Number = zero()
+			val zero: A_Number = zero
 
 			// If there is only one member in the range, return that integer in
 			// its own tuple.
@@ -568,13 +574,16 @@ class IntegerIntervalTupleDescriptor private constructor(mutability: Mutability)
 
 			// If there are fewer than maximumCopySize members in this interval,
 			// create a normal tuple with them in it instead of an interval tuple.
-			val size = 1 +
-					   difference.divideCanDestroy(delta, false).extractInt()
-			if (size < maximumCopySize)
+			val size =
+				difference
+					.divideCanDestroy(delta, false)
+					.plusCanDestroy(one, true)
+
+			if (size.lessThan(fromInt(maximumCopySize)))
 			{
 				val members = mutableListOf<A_Number>()
 				var newMember: A_Number = start
-				for (i in 0 until size)
+				for (i in 0 until size.extractInt())
 				{
 					members.add(newMember)
 					newMember = newMember.addToIntegerCanDestroy(delta, false)
@@ -584,10 +593,9 @@ class IntegerIntervalTupleDescriptor private constructor(mutability: Mutability)
 
 			// If the slot contents are small enough, create a
 			// SmallIntegerIntervalTuple.
-			if (SmallIntegerIntervalTupleDescriptor.isSmallIntervalCandidate(
-					start, end, delta))
+			if (isSmallIntervalCandidate(start, end, delta))
 			{
-				return SmallIntegerIntervalTupleDescriptor.createSmallInterval(
+				return createSmallInterval(
 					start.extractInt(),
 					end.extractInt(),
 					delta.extractInt().toLong())
@@ -596,8 +604,17 @@ class IntegerIntervalTupleDescriptor private constructor(mutability: Mutability)
 			// No other efficiency shortcuts. Normalize end, and create a range.
 			val adjustedEnd = start.plusCanDestroy(
 				delta.timesCanDestroy(
-					fromInt(size - 1), false), false)
-			return forceCreate(start, adjustedEnd, delta, size)
+					size.minusCanDestroy(one, false),
+					false),
+				false)
+
+			// The size exceeds the subscript domain for a tuple, so fail.
+			if (!size.isInt)
+			{
+				throw AvailRuntimeException(E_EXCEEDS_VM_LIMIT)
+			}
+
+			return forceCreate(start, adjustedEnd, delta, size.extractInt())
 		}
 
 		/**

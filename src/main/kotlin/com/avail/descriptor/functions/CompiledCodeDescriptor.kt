@@ -912,7 +912,7 @@ open class CompiledCodeDescriptor protected constructor(
 					if (literal.equalsNil())
 					{
 						// Value doesn't matter, but it can't be nil.  Use zero.
-						literal = zero()
+						literal = zero
 					}
 					literal.writeSummaryTo(writer)
 				}

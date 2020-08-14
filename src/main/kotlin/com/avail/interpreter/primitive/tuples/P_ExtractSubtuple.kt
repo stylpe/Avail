@@ -98,7 +98,7 @@ object P_ExtractSubtuple : Primitive(3, CanFold, CanInline)
 		{
 			val startInt = startInteger.extractInt()
 			val adjustment =
-				startInteger.minusCanDestroy(one(), false).makeImmutable()
+				startInteger.minusCanDestroy(one, false).makeImmutable()
 			val oldSizes = tupleType.sizeRange()
 			val oldEnd1 = oldSizes.upperBound()
 			val oldEnd2 = endType.upperBound()
@@ -108,10 +108,10 @@ object P_ExtractSubtuple : Primitive(3, CanFold, CanInline)
 				oldEnd1
 			val newLower =
 				endType.lowerBound().minusCanDestroy(adjustment, false)
-			val realLower = if (newLower.lessThan(zero())) zero() else newLower
+			val realLower = if (newLower.lessThan(zero)) zero else newLower
 			val newEnd = oldEnd.minusCanDestroy(adjustment, false)
 			val newSizes = integerRangeType(
-				realLower, true, newEnd.plusCanDestroy(one(), true), false)
+				realLower, true, newEnd.plusCanDestroy(one, true), false)
 			val originalLeading = tupleType.typeTuple()
 			val newLeading = originalLeading.copyTupleFromToCanDestroy(
 				min(startInt, originalLeading.tupleSize() + 1),
